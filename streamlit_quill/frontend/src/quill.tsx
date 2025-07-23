@@ -40,21 +40,32 @@ const Quill = ({ args }: QuillProps) => {
       ro.observe(divRef.current)
 
     return () => ro.disconnect()
-  })
+  }, [])
 
-  return <div ref={divRef}>
-    <ReactQuill
-      defaultValue={args.defaultValue}
-      modules={{
-        toolbar: args.toolbar,
-        history: args.history,
-      }}
-      placeholder={args.placeholder}
-      preserveWhitespace={args.preserveWhitespace}
-      readOnly={args.readOnly}
-      onChange={handleChange}
-    />
-  </div>
+  const modules = {
+    toolbar: [
+      ['bold', 'italic', 'underline'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+    ],
+    history: {
+      delay: 1000,
+      maxStack: 500,
+      userOnly: true,
+    }
+  }
+
+  return (
+    <div ref={divRef}>
+      <ReactQuill
+        defaultValue={args.defaultValue}
+        modules={modules}
+        placeholder={args.placeholder}
+        preserveWhitespace={args.preserveWhitespace}
+        readOnly={args.readOnly}
+        onChange={handleChange}
+      />
+    </div>
+  )
 }
 
 export default withStreamlitConnection(Quill)
